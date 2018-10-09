@@ -1,4 +1,6 @@
 # KV using list of (k, v) pairs as internal representation
+
+# Constructors
 def kv_empty():
     """Create and return an empty KV
     A KV is a collection of key-value pairs such that kv_get(kv, key) returns the value
@@ -21,16 +23,7 @@ def kv_create(kv_pairs):
         nkv = kv_add(nkv, key, val)
     return nkv
 
-def kv_print(kv):
-    kv = sorted(kv)
-    dsp = "{"
-    for (key, val) in kv[:-1]:
-        dsp = dsp + "'" + key + "':" + str(val) + ",\n"
-    if kv:
-        key, val = kv[-1]
-        dsp = dsp + "'" + key + "':" + str(val)
-    dsp = dsp + "}"
-    print(dsp)
+# Selectors
 
 def kv_get(kv, key):
     """Return the value bound to key in kv, or None if not present
@@ -78,6 +71,8 @@ def kv_values(kv):
     """
     return [val for (key, val) in kv]
 
+# Operators
+
 def kv_in(kv, key):
     """Determine whether key is present in kv
     """
@@ -87,4 +82,15 @@ def kv_delete(kv, key):
     """Return a KV based in kv having removed any binding for key
     """
     return kv_create([(k, v) for (k, v) in kv_items(kv) if not k == key])
+
+def kv_print(kv):
+    pairs = sorted(kv_items(kv))
+    dsp = "{"
+    for (key, val) in pairs[:-1]:
+        dsp = dsp + "'" + key + "':" + str(val) + ",\n"
+    if pairs:
+        key, val = pairs[-1]
+        dsp = dsp + "'" + key + "':" + str(val)
+    dsp = dsp + "}"
+    print(dsp)
 

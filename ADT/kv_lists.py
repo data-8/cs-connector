@@ -20,7 +20,7 @@ def kv_add(kv, key, value):
     assert type(key) == str  # the key should be a string
     return ([key]+kv[KV_KEY], [value]+kv[KV_VAL])
 
-def kv_create(listofkvpairs):
+def kv_create(kv_pairs):
     """Create and return a KV initialized to list of kvpairs.
     
     A KV is a collection of key-value pairs such that kv_get(kv, key) returns the value
@@ -28,12 +28,14 @@ def kv_create(listofkvpairs):
     """
     
     # Internal representation of a KV is a pair of lists: keys and values
-    for kv in listofkvpairs:   # Verify that initialization is valid
+    for kv in kv_pairs:   # Verify that initialization is valid
         assert len(kv)==2      # Each should be a key, value pair
     kv = kv_empty()
-    for (k,v) in listofkvpairs:
+    for (k,v) in kv_pairs:
         kv = kv_add(kv, k, v)
     return kv       # 
+
+# Selectors
 
 def kv_get(kv, key):
     """Return the value bound to key in kv, or None if not present
@@ -47,7 +49,6 @@ def kv_get(kv, key):
         if k == key:
             return v
     return None
-
 
 def kv_items(kv):
     """Return a list of the (key, value) pairs in kv
@@ -82,6 +83,8 @@ def kv_values(kv):
     """
     return kv[KV_VAL]
 
+# Operations
+
 def kv_in(kv, key):
     """Determine whether key is present in kv
     """
@@ -93,7 +96,7 @@ def kv_delete(kv, key):
     return kv_create([(k, v) for (k, v) in kv_items(kv) if not k == key])
 
 def kv_print(kv):
-    pairs = sorted(zip(kv[KV_KEY], kv[KV_VAL]))
+    pairs = sorted(kv_items(kv))
     dsp = "{"
     for (key, val) in pairs[:-1]:
         dsp = dsp + "'" + key + "':" + str(val) + ",\n"
